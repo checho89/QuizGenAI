@@ -1,0 +1,22 @@
+:root {
+  /* light defaults */
+  --bg: #ffffff;
+  --fg: #0f172a;
+  --card: #ffffff;
+  --border: #e5e7eb;
+  --accent: #0ea5e9;
+}
+
+/* your dark-blue theme */
+html[data-theme="dark"] {
+  --bg: #0b1220;   /* dark blue */
+  --fg: #e5e7eb;
+  --card: #0f172a;
+  --border: #08792b;
+  --accent: #38bdf8;
+}
+
+/* apply everywhere */
+html, body { background: var(--bg); color: var(--fg); }
+.card { background: var(--card); border: 1px solid var(--border); }
+a { color: var(--accent); }

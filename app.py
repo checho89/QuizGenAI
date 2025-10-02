@@ -2,6 +2,7 @@ import os, json
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from dotenv import load_dotenv
 from openai_client import get_client
+from openai import OpenAI
 from quiz_schema import Quiz
 from utils import grade, badge_svg_datauri
 
@@ -10,6 +11,7 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-key")
 PORT = int(os.getenv("PORT", "5000"))
+
 
 TOPICS = [
     "AWS", "Azure", "GCP", "Kubernetes", "Docker", "Linux", "Python", "Git", "DevOps",
@@ -136,4 +138,4 @@ def submit():
     return render_template("result.html", quiz=quiz, results=results, badge=badge)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=PORT, debug=True)
+       app.run(host="0.0.0.0", port=int(os.getenv("PORT", "5000")), debug=True)
