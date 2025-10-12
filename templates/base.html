@@ -1,34 +1,95 @@
-﻿<!doctype html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html lang="en" data-bs-theme="light"> <!-- Default theme: light -->
 <head>
-  <meta charset="utf-8" />
- 
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>{{ title or "AI Quiz Generator" }}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-</head>
-<body class="min-h-screen bg-slate-950 text-slate-100">
- 
-  <div class="max-w-4xl mx-auto p-6">
-    <div class="flex items-center justify-between mb-5">
-      <h1 class="text-2xl font-bold">AI Quiz Generator</h1>
-      <span class="px-3 py-1 rounded-full text-xs bg-slate-800 border border-slate-700">Python · Flask</span>
-    </div>
+    <meta charset="UTF-8">
+    <title>{{ title if title else "Quiz App" }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <style>
+        body { padding-top: 70px; transition: background-color 0.3s, color 0.3s; }
+        .theme-toggle {
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: white;
+            font-size: 1.3rem;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{ url_for('index') }}">QuizApp</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Topics</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">History</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Profile</a>
+        </li>
+      </ul>
+
+      <div class="d-flex align-items-center">
+        <button id="themeToggle" class="theme-toggle me-3" title="Toggle theme">🌙</button>
+
+        {% if session.get("user") %}
+          <span class="navbar-text me-3">
+            Hello, {{ session["user"] }}
+          </span>
+          <a href="{{ url_for('logout') }}" class="btn btn-outline-light">Logout</a>
+        {% else %}
+          <a href="{{ url_for('auth') }}" class="btn btn-outline-light">Login</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
     {% with messages = get_flashed_messages() %}
       {% if messages %}
-        <div class="mb-4 p-3 rounded-md bg-rose-950/50 border border-rose-800">
-          {% for m in messages %}<div>{{ m }}</div>{% endfor %}
+        <div class="alert alert-warning mt-2">
+          {% for message in messages %}
+            <div>{{ message }}</div>
+          {% endfor %}
         </div>
       {% endif %}
     {% endwith %}
 
     {% block content %}{% endblock %}
-    <hr class="my-6 border-slate-800">
-    <div class="text-xs text-slate-400">Tip: Omit types you dont want. Optional exam-style timer available.</div>
-  </div>
-  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  // Apply saved theme on load
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-bs-theme', savedTheme);
+
+  const toggleButton = document.getElementById('themeToggle');
+  toggleButton.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+  // Handle theme toggle
+  toggleButton.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-bs-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    toggleButton.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+  });
+</script>
+
 </body>
 </html>
