@@ -15,6 +15,7 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-key")
 PORT = int(os.getenv("PORT", "5000"))
 
 # MongoDB setup
+load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI")
 client = MongoClient(MONGO_URI)
 db = client["DataBase1"] 
@@ -60,7 +61,7 @@ def build_json_schema(count: int, allowed_types):
         }
     }
 
-# ------------------- AUTH ROUTES -------------------
+# ------------------- AUTH ROUTES ------------------------
 @app.get("/auth")
 def auth():
     return render_template("auth.html")
@@ -161,6 +162,8 @@ def generate():
 
     session["quiz"] = quiz
     return redirect(url_for("quiz"))
+
+# ------------------- QUIZ ------------------------
 
 @app.get("/quiz")
 def quiz():
