@@ -10,13 +10,14 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 load_dotenv()
 
+
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-key")
 PORT = int(os.getenv("PORT", "5000"))
 
 # MongoDB setup
 load_dotenv()
-MONGO_URI = os.getenv("MONGO_URI")
+MONGO_URI="mongodb+srv://user1:Welcome1@database1.hjgtcut.mongodb.net/?retryWrites=true&w=majority&appName=DataBase1"
 client = MongoClient(MONGO_URI)
 db = client["DataBase1"] 
 users_col = db["users"]
