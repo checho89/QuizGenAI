@@ -17,10 +17,17 @@ PORT = int(os.getenv("PORT", "5000"))
 
 # MongoDB setup
 load_dotenv()
-MONGO_URI="mongodb+srv://user1:Welcome1@database1.hjgtcut.mongodb.net/?retryWrites=true&w=majority&appName=DataBase1"
-client = MongoClient(MONGO_URI)
-db = client["DataBase1"] 
-users_col = db["users"]
+MONGO_URI = os.getenv("MONGO_URI")
+if not MONGO_URI:
+    raise RuntimeError("MONGO_URI is missing! Set it in Azure App Settings.")
+
+try:
+    client = MongoClient(MONGO_URI)
+    db = client["DataBase1"]
+    users_col = db["users"]
+except Exception as e:
+    raise RuntimeError(f"MongoDB connection failed: {e}")
+
 
 # Quiz settings
 TOPICS = [
