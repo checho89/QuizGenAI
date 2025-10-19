@@ -8,11 +8,7 @@ from utils import grade, badge_svg_datauri
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
 
-load_dotenv()
 
-
-app = Flask(__name__)
-app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-key")
 PORT = int(os.getenv("PORT", "5000"))
 
 # MongoDB setup
