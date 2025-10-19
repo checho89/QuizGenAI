@@ -13,6 +13,11 @@ PORT = int(os.getenv("PORT", "5000"))
 
 # MongoDB setup
 load_dotenv()
+
+app = Flask(__name__)
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-key")
+PORT = int(os.getenv("PORT", "5000"))
+
 MONGO_URI = os.getenv("MONGO_URI")
 if not MONGO_URI:
     raise RuntimeError("MONGO_URI is missing! Set it in Azure App Settings.")
